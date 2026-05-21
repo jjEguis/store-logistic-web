@@ -11,7 +11,8 @@ const schema = z.object({
   idTransportista: z.coerce.number().int().positive().optional().or(z.literal('')),
 })
 
-type FormValues = z.infer<typeof schema>
+type FormInput  = z.input<typeof schema>
+type FormValues = z.output<typeof schema>
 
 interface Props { onClose: () => void }
 
@@ -39,7 +40,7 @@ function Field({ label, required, hint, error, children }: {
 
 export default function NewVehicleForm({ onClose }: Props) {
   const { mutate: create, isPending } = useCreateVehicle()
-  const { register, handleSubmit, formState: { errors } } = useForm<FormValues>({
+  const { register, handleSubmit, formState: { errors } } = useForm<FormInput, unknown, FormValues>({
     resolver: zodResolver(schema),
     defaultValues: { categoria: 'CAMION_SENCILLO' },
   })
