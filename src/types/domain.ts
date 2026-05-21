@@ -64,6 +64,9 @@ export interface Route {
   vehicleId: number
   status: RouteStatus
   dispatchDate: string
+  occupancyPct: number   // 0–100
+  accumulatedKg: number
+  totalKg: number
 }
 
 // ── Orders / Final delivery state ─────────────────────────────
