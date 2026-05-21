@@ -1,15 +1,34 @@
 import api from '@/lib/axios'
 import type { Route } from '@/types/domain'
 
-export const routesApi = {
-  list: () =>
-    api.get<Route[]>('/logistics/routes').then(r => r.data),
+// Backend response shape
+interface RouteDTO {
+  routeId: number
+  vehicleId: number
+  routeStatus: string
+  dispatchDate: string
+}
 
+function mapRoute(dto: RouteDTO): Route {
+  return {
+    id:           dto.routeId,
+    vehicleId:    dto.vehicleId,
+    status:       dto.routeStatus as Route['status'],
+    dispatchDate: dto.dispatchDate,
+  }
+}
+
+export const routesApi = {
+  // GET /logistics/routes
+  list: () =>
+    api.get<RouteDTO[]>('/logistics/routes').then(r => r.data.map(mapRoute)),
+
+  // GET /logistics/routes/{routeId}
   get: (routeId: number) =>
-    api.get<Route>(`/logistics/routes/${routeId}`).then(r => r.data),
+    api.get<RouteDTO>(`/logistics/routes/${routeId}`).then(r => mapRoute(r.data)),
 
   assignVehicle: (routeId: number, vehicleId: string) =>
     api
-      .patch<Route>(`/logistics/routes/${routeId}/vehicle`, { vehicleId })
-      .then(r => r.data),
+      .patch<RouteDTO>(`/logistics/routes/${routeId}/vehicle`, { vehicleId })
+      .then(r => mapRoute(r.data)),
 }
