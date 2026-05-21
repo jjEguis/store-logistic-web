@@ -106,6 +106,15 @@ export interface UpdateStopStatusResult {
   fechaEntrega: string | null
 }
 
+// GET /logistics/orders/carrier/{carrierId}/history
+export interface OrderHistoryItem {
+  idPedido: number
+  estadoFinal: FinalDeliveryCode
+  tasaEfectividad: number
+  idTransportista: number
+  fechaActualizacion: string
+}
+
 // ── API error shape ───────────────────────────────────────────
 
 export interface ApiError {
