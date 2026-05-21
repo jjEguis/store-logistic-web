@@ -1,5 +1,6 @@
 import { useState } from 'react'
-import { MapPin, Search, Truck } from 'lucide-react'
+import { useNavigate } from 'react-router-dom'
+import { MapPin, Search, Truck, List } from 'lucide-react'
 import type { Route, RouteStatus } from '@/types/domain'
 import { useRoutes, useAssignVehicle } from '@/features/routes/hooks/useRoutes'
 
@@ -93,6 +94,7 @@ function AssignForm({ routeId, onDone }: { routeId: number; onDone: () => void }
 
 function RouteCard({ route }: { route: Route }) {
   const [showAssign, setShowAssign] = useState(false)
+  const navigate = useNavigate()
   const colors = STATUS_COLORS[route.status]
 
   return (
@@ -144,21 +146,43 @@ function RouteCard({ route }: { route: Route }) {
             <OccupancyBar pct={route.occupancyPct} />
           </div>
 
-          {/* Assign vehicle */}
-          {route.status === 'PENDING_VEHICLE' && !showAssign && (
-            <button
-              onClick={() => setShowAssign(true)}
-              style={{
-                marginTop: 12, padding: '6px 14px', fontSize: 13, fontWeight: 500,
-                fontFamily: 'inherit', background: 'var(--brand)', color: 'white',
-                border: 0, borderRadius: 'var(--r-input)', cursor: 'pointer',
-              }}
-              onMouseEnter={e => (e.currentTarget.style.background = 'var(--brand-hover)')}
-              onMouseLeave={e => (e.currentTarget.style.background = 'var(--brand)')}
-            >
-              Asignar vehículo
-            </button>
-          )}
+          {/* Actions row */}
+          <div style={{ display: 'flex', gap: 8, marginTop: 12, flexWrap: 'wrap' }}>
+            {route.vehicleId && (
+              <button
+                onClick={() => navigate(`/driver/stops?routeId=${route.id}&carrierId=${route.vehicleId}`)}
+                style={{
+                  display: 'inline-flex', alignItems: 'center', gap: 6,
+                  padding: '6px 14px', fontSize: 13, fontWeight: 500, fontFamily: 'inherit',
+                  background: 'var(--bg-surface-2)', color: 'var(--fg-1)',
+                  border: '1px solid var(--border-2)', borderRadius: 'var(--r-input)', cursor: 'pointer',
+                }}
+                onMouseEnter={e => (e.currentTarget.style.background = 'var(--border-2)')}
+                onMouseLeave={e => (e.currentTarget.style.background = 'var(--bg-surface-2)')}
+              >
+                <List size={14} strokeWidth={1.5} />
+                Ver paradas
+              </button>
+            )}
+
+            {/* Assign vehicle */}
+            {route.status === 'PENDING_VEHICLE' && !showAssign && (
+              <button
+                onClick={() => setShowAssign(true)}
+                style={{
+                  display: 'inline-flex', alignItems: 'center', gap: 6,
+                  padding: '6px 14px', fontSize: 13, fontWeight: 500,
+                  fontFamily: 'inherit', background: 'var(--brand)', color: 'white',
+                  border: 0, borderRadius: 'var(--r-input)', cursor: 'pointer',
+                }}
+                onMouseEnter={e => (e.currentTarget.style.background = 'var(--brand-hover)')}
+                onMouseLeave={e => (e.currentTarget.style.background = 'var(--brand)')}
+              >
+                Asignar vehículo
+              </button>
+            )}
+          </div>
+
           {showAssign && (
             <AssignForm routeId={route.id} onDone={() => setShowAssign(false)} />
           )}
