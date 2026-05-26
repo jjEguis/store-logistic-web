@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { MapPin, Search, Truck, List } from 'lucide-react'
 import type { Route, RouteStatus } from '@/types/domain'
-import { useRoutes, useAssignVehicle } from '@/features/routes/hooks/useRoutes'
+import { useRoutes } from '@/features/routes/hooks/useRoutes'
 
 type StatusFilter = RouteStatus | 'ALL'
 
@@ -42,58 +42,7 @@ function OccupancyBar({ pct }: { pct: number }) {
   )
 }
 
-function AssignForm({ routeId, onDone }: { routeId: number; onDone: () => void }) {
-  const { mutate, isPending } = useAssignVehicle()
-  const [vehicleId, setVehicleId] = useState('')
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    if (!vehicleId.trim()) return
-    mutate({ routeId, vehicleId: vehicleId.trim() }, { onSuccess: onDone })
-  }
-
-  return (
-    <form onSubmit={handleSubmit} style={{ display: 'flex', gap: 8, marginTop: 12 }}>
-      <input
-        autoFocus
-        value={vehicleId}
-        onChange={e => setVehicleId(e.target.value)}
-        placeholder="ID del vehículo"
-        style={{
-          flex: 1, padding: '6px 10px', fontSize: 13, fontFamily: 'inherit',
-          border: '1px solid var(--border-2)', borderRadius: 'var(--r-input)',
-          background: 'var(--bg-surface-2)', color: 'var(--fg-1)', outline: 'none',
-        }}
-      />
-      <button
-        type="submit"
-        disabled={isPending || !vehicleId.trim()}
-        style={{
-          padding: '6px 14px', fontSize: 13, fontWeight: 500, fontFamily: 'inherit',
-          background: 'var(--brand)', color: 'white', border: 0,
-          borderRadius: 'var(--r-input)', cursor: isPending ? 'not-allowed' : 'pointer',
-          opacity: isPending ? 0.7 : 1,
-        }}
-      >
-        {isPending ? 'Asignando…' : 'Asignar'}
-      </button>
-      <button
-        type="button"
-        onClick={onDone}
-        style={{
-          padding: '6px 10px', fontSize: 13, fontFamily: 'inherit',
-          background: 'transparent', color: 'var(--fg-2)', border: '1px solid var(--border-2)',
-          borderRadius: 'var(--r-input)', cursor: 'pointer',
-        }}
-      >
-        Cancelar
-      </button>
-    </form>
-  )
-}
-
 function RouteCard({ route }: { route: Route }) {
-  const [showAssign, setShowAssign] = useState(false)
   const navigate = useNavigate()
   const colors = STATUS_COLORS[route.status]
 
@@ -165,27 +114,7 @@ function RouteCard({ route }: { route: Route }) {
               </button>
             )}
 
-            {/* Assign vehicle */}
-            {route.status === 'PENDING_VEHICLE' && !showAssign && (
-              <button
-                onClick={() => setShowAssign(true)}
-                style={{
-                  display: 'inline-flex', alignItems: 'center', gap: 6,
-                  padding: '6px 14px', fontSize: 13, fontWeight: 500,
-                  fontFamily: 'inherit', background: 'var(--brand)', color: 'white',
-                  border: 0, borderRadius: 'var(--r-input)', cursor: 'pointer',
-                }}
-                onMouseEnter={e => (e.currentTarget.style.background = 'var(--brand-hover)')}
-                onMouseLeave={e => (e.currentTarget.style.background = 'var(--brand)')}
-              >
-                Asignar vehículo
-              </button>
-            )}
           </div>
-
-          {showAssign && (
-            <AssignForm routeId={route.id} onDone={() => setShowAssign(false)} />
-          )}
         </div>
       </div>
     </div>

@@ -6,9 +6,8 @@ import type { CreateVehiclePayload } from '@/types/domain'
 import { useCreateVehicle } from '../hooks/useFleet'
 
 const schema = z.object({
-  categoria:       z.enum(['CAMIONETA_URBANA', 'CAMION_SENCILLO', 'TRACTOCAMION_REGIONAL']),
-  capacidadCarga:  z.coerce.number().positive('Debe ser mayor a 0'),
-  idTransportista: z.coerce.number().int().positive().optional().or(z.literal('')),
+  categoria:      z.enum(['CAMIONETA_URBANA', 'CAMION_SENCILLO', 'TRACTOCAMION_REGIONAL']),
+  capacidadCarga: z.coerce.number().positive('Debe ser mayor a 0'),
 })
 
 type FormInput  = z.input<typeof schema>
@@ -49,9 +48,6 @@ export default function NewVehicleForm({ onClose }: Props) {
     const payload: CreateVehiclePayload = {
       categoria:      data.categoria,
       capacidadCarga: data.capacidadCarga,
-      ...(data.idTransportista !== '' && data.idTransportista != null
-        ? { idTransportista: Number(data.idTransportista) }
-        : {}),
     }
     create(payload, { onSuccess: onClose })
   }
@@ -89,10 +85,6 @@ export default function NewVehicleForm({ onClose }: Props) {
 
           <Field label="Capacidad de carga (kg)" required hint="Peso máximo permitido en kilogramos." error={errors.capacidadCarga?.message}>
             <input {...register('capacidadCarga')} type="number" placeholder="5000" style={INPUT_STYLE} />
-          </Field>
-
-          <Field label="ID Transportista" hint="Opcional · puedes asignarlo más tarde." error={errors.idTransportista?.message}>
-            <input {...register('idTransportista')} type="number" placeholder="Sin asignar" style={INPUT_STYLE} />
           </Field>
         </div>
 

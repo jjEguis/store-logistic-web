@@ -27,7 +27,6 @@ export interface Vehicle {
 export interface CreateVehiclePayload {
   categoria: VehicleCategory
   capacidadCarga: number
-  idTransportista?: number
 }
 
 // ── Route / Stops ─────────────────────────────────────────────

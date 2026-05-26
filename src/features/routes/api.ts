@@ -33,8 +33,4 @@ export const routesApi = {
   get: (routeId: number) =>
     api.get<RouteDTO>(`/logistics/routes/${routeId}`).then(r => mapRoute(r.data)),
 
-  assignVehicle: (routeId: number, vehicleId: string) =>
-    api
-      .patch<RouteDTO>(`/logistics/routes/${routeId}/vehicle`, { vehicleId })
-      .then(r => mapRoute(r.data)),
 }

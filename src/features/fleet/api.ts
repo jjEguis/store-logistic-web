@@ -47,7 +47,6 @@ export const fleetApi = {
     api.post<VehicleDTO>('/vehicles', {
       category:      payload.categoria,
       loadCapacity:  payload.capacidadCarga,
-      transporterId: payload.idTransportista ?? null,
     }).then(r => mapVehicle(r.data)),
 
   // PATCH /vehicles/{id}/status
