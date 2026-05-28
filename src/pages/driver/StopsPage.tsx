@@ -531,7 +531,7 @@ export default function StopsPage() {
 
       {error && (
         <div style={{ margin: 16, padding: 14, background: '#FAD9D6', borderRadius: 10, color: '#771810', fontSize: 14 }}>
-          Error al cargar las paradas. Verifica que la ruta y el transportista sean correctos.
+          {(error as any)?.response?.data?.mensaje ?? 'Error al cargar las paradas. Verifica la conexión.'}
         </div>
       )}
 
