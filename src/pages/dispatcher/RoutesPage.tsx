@@ -18,6 +18,23 @@ const STATUS_COLORS: Record<RouteStatus, { bg: string; fg: string }> = {
   PENDING_VEHICLE: { bg: 'var(--warning-bg)', fg: 'var(--warning-fg)' },
 }
 
+function OccupancyBar({ pct }: { pct: number }) {
+  const color = pct >= 90 ? 'var(--danger-fg)' : pct >= 70 ? 'var(--warning-fg)' : 'var(--success-fg)'
+  return (
+    <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+      <div style={{
+        flex: 1, height: 6, borderRadius: 99,
+        background: 'var(--border-2)', overflow: 'hidden',
+      }}>
+        <div style={{ width: `${Math.min(pct, 100)}%`, height: '100%', background: color, borderRadius: 99 }} />
+      </div>
+      <span style={{ fontSize: 12, fontVariantNumeric: 'tabular-nums', color, minWidth: 36, textAlign: 'right' }}>
+        {pct.toFixed(0)}%
+      </span>
+    </div>
+  )
+}
+
 const SELECT_STYLE: React.CSSProperties = {
   padding: '7px 28px 7px 12px', fontSize: 13, fontFamily: 'inherit',
   border: '1px solid var(--border-2)', borderRadius: 'var(--r-input)',
@@ -71,6 +88,11 @@ function RouteCard({ route }: { route: Route }) {
             <span style={{ fontSize: 13, color: 'var(--fg-3)' }}>
               {route.accumulatedKg.toLocaleString()} / {route.totalKg.toLocaleString()} kg
             </span>
+          </div>
+
+          {/* Occupancy bar */}
+          <div style={{ marginTop: 10 }}>
+            <OccupancyBar pct={route.occupancyPct} />
           </div>
 
           {/* Actions row */}

@@ -7,6 +7,7 @@ interface RouteDTO {
   vehicleId: number
   routeStatus: string
   dispatchDate: string
+  occupancyPercentage: number
   accumulatedWeightKg: number
   totalCapacityKg: number
 }
@@ -17,6 +18,7 @@ function mapRoute(dto: RouteDTO): Route {
     vehicleId:     dto.vehicleId,
     status:        dto.routeStatus as Route['status'],
     dispatchDate:  dto.dispatchDate,
+    occupancyPct:  dto.occupancyPercentage ?? 0,
     accumulatedKg: dto.accumulatedWeightKg ?? 0,
     totalKg:       dto.totalCapacityKg ?? 0,
   }
