@@ -1,7 +1,7 @@
 import { X, ArrowRight, UserPlus } from 'lucide-react'
 import Pill from '@/components/Pill'
 import type { Vehicle, VehicleState } from '@/types/domain'
-import { fmtKg, fmtPct } from '@/lib/utils'
+import { fmtKg } from '@/lib/utils'
 import VehicleAvatar from './VehicleAvatar'
 import CategoryTag from './CategoryTag'
 import StateMenu from './StateMenu'
@@ -35,7 +35,6 @@ export default function VehicleDetail({ vehicle: v, onClose, onChangeState, isPe
           <VehicleAvatar id={v.idVehiculo} size={32} />
           <div>
             <div className="mono" style={{ fontWeight: 600, fontSize: 14 }}>Vehículo #{v.idVehiculo}</div>
-            <div style={{ fontSize: 12, color: 'var(--fg-2)' }}>{fmtPct(v.porcentajeOcupacion)} ocupado</div>
           </div>
         </div>
         <button onClick={onClose} style={{ background: 'transparent', border: 0, cursor: 'pointer', color: 'var(--fg-2)', padding: 4, display: 'flex' }}>
@@ -62,8 +61,6 @@ export default function VehicleDetail({ vehicle: v, onClose, onChangeState, isPe
             {[
               { label: 'Categoría',          node: <CategoryTag value={v.categoria} /> },
               { label: 'Capacidad de carga', node: <span className="mono-tab" style={{ fontSize: 14, fontWeight: 600 }}>{fmtKg(v.capacidadCarga)}</span> },
-              { label: 'Peso actual',        node: <span className="mono-tab" style={{ fontSize: 14, fontWeight: 600 }}>{fmtKg(v.pesoActual)}</span> },
-              { label: 'Ocupación',          node: <span className="mono-tab" style={{ fontSize: 14, fontWeight: 600 }}>{fmtPct(v.porcentajeOcupacion)}</span> },
             ].map(({ label, node }) => (
               <div key={label}>
                 <div style={{ fontSize: 11, color: 'var(--fg-3)' }}>{label}</div>

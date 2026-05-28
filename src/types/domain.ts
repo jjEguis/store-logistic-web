@@ -19,8 +19,6 @@ export interface Vehicle {
   capacidadCarga: number       // kg
   estado: VehicleState
   idTransportista: number | null
-  pesoActual: number           // kg currently loaded
-  porcentajeOcupacion: number  // 0–100
   createdAt?: string
 }
 
@@ -63,7 +61,6 @@ export interface Route {
   vehicleId: number
   status: RouteStatus
   dispatchDate: string
-  occupancyPct: number   // 0–100
   accumulatedKg: number
   totalKg: number
 }

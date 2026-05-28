@@ -8,8 +8,6 @@ interface VehicleDTO {
   category: string
   loadCapacity: number
   status: string
-  currentWeight: number
-  occupancyPercentage: number
   createdAt: string
 }
 
@@ -26,8 +24,6 @@ function mapVehicle(dto: VehicleDTO): Vehicle {
     capacidadCarga:    dto.loadCapacity,
     estado:            dto.status as Vehicle['estado'],
     idTransportista:   dto.transporterId,
-    pesoActual:        dto.currentWeight,
-    porcentajeOcupacion: dto.occupancyPercentage,
     createdAt:         dto.createdAt,
   }
 }

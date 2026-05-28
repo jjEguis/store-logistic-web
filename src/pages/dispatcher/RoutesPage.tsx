@@ -25,23 +25,6 @@ const SELECT_STYLE: React.CSSProperties = {
   appearance: 'none',
 }
 
-function OccupancyBar({ pct }: { pct: number }) {
-  const color = pct >= 90 ? 'var(--danger-fg)' : pct >= 70 ? 'var(--warning-fg)' : 'var(--success-fg)'
-  return (
-    <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-      <div style={{
-        flex: 1, height: 6, borderRadius: 99,
-        background: 'var(--border-2)', overflow: 'hidden',
-      }}>
-        <div style={{ width: `${Math.min(pct, 100)}%`, height: '100%', background: color, borderRadius: 99 }} />
-      </div>
-      <span style={{ fontSize: 12, fontVariantNumeric: 'tabular-nums', color, minWidth: 36, textAlign: 'right' }}>
-        {pct.toFixed(0)}%
-      </span>
-    </div>
-  )
-}
-
 function RouteCard({ route }: { route: Route }) {
   const navigate = useNavigate()
   const colors = STATUS_COLORS[route.status]
@@ -88,11 +71,6 @@ function RouteCard({ route }: { route: Route }) {
             <span style={{ fontSize: 13, color: 'var(--fg-3)' }}>
               {route.accumulatedKg.toLocaleString()} / {route.totalKg.toLocaleString()} kg
             </span>
-          </div>
-
-          {/* Occupancy bar */}
-          <div style={{ marginTop: 10 }}>
-            <OccupancyBar pct={route.occupancyPct} />
           </div>
 
           {/* Actions row */}

@@ -1,6 +1,6 @@
 import { ChevronRight } from 'lucide-react'
 import type { Vehicle, VehicleState } from '@/types/domain'
-import { fmtKg, fmtPct } from '@/lib/utils'
+import { fmtKg } from '@/lib/utils'
 import VehicleAvatar from './VehicleAvatar'
 import CategoryTag from './CategoryTag'
 import StateMenu from './StateMenu'
@@ -77,7 +77,6 @@ export default function VehicleTable({ vehicles, selectedId, onSelect, onChangeS
                     <VehicleAvatar id={v.idVehiculo} />
                     <div style={{ minWidth: 0 }}>
                       <div className="mono" style={{ fontWeight: 600, fontSize: 13 }}>#{v.idVehiculo}</div>
-                      <div style={{ fontSize: 12, color: 'var(--fg-2)' }}>{fmtPct(v.porcentajeOcupacion)} ocupado</div>
                     </div>
                   </div>
                 </td>
@@ -90,7 +89,6 @@ export default function VehicleTable({ vehicles, selectedId, onSelect, onChangeS
                 {/* Capacidad */}
                 <td style={{ padding: '12px 16px', verticalAlign: 'middle' }}>
                   <div className="mono-tab" style={{ fontSize: 13 }}>{fmtKg(v.capacidadCarga)}</div>
-                  <div style={{ fontSize: 11, color: 'var(--fg-3)' }}>{fmtKg(v.pesoActual)} actual</div>
                 </td>
 
                 {/* Transportista */}
